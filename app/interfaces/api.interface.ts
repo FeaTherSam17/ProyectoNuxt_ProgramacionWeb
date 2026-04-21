@@ -53,4 +53,14 @@ export interface YoutubeVideo {
   thumbnailUrl: string
   publishedAt: string
   videoUrl: string
+  embedUrl: string
+  durationSeconds: number
+  durationLabel: string
+}
+
+export interface YoutubePayload {
+  configured: boolean
+  channelTitle: string | null
+  featuredVideo: YoutubeVideo | null
+  videos: YoutubeVideo[]
 }

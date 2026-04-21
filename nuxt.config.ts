@@ -33,7 +33,9 @@ export default defineNuxtConfig({
     spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET || '',
     spotifyArtistId: process.env.SPOTIFY_ARTIST_ID || '',
     spotifyPlaylistIds: process.env.SPOTIFY_PLAYLIST_IDS || '',
-    spotifyMarket: process.env.SPOTIFY_MARKET || 'US'
+    spotifyMarket: process.env.SPOTIFY_MARKET || 'US',
+    youtubeApiKey: process.env.YOUTUBE_API_KEY || '',
+    youtubeChannelId: process.env.YOUTUBE_CHANNEL_ID || ''
   },
 
   compatibilityDate: '2024-11-01',
