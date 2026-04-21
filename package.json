@@ -22,9 +22,11 @@
     "motion-v": "^1.10.3",
     "nuxt": "^4.4.2",
     "nuxt-og-image": "^5.1.13",
+    "pg": "^8.16.3",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
+    "@types/pg": "^8.15.5",
     "@nuxt/eslint": "^1.15.2",
     "eslint": "^10.0.3",
     "typescript": "^5.9.3",

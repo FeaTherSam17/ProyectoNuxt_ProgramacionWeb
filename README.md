@@ -43,6 +43,27 @@ Stop services:
 docker compose down
 ```
 
+## Database Configuration (Docker + Supabase)
+
+The app is configured to support both environments:
+
+- Local development with Docker Postgres using `DATABASE_URL`
+- Production on Vercel using Supabase Postgres via `SUPABASE_DB_URL`
+
+Environment variables:
+
+```bash
+DATABASE_URL=postgresql://appuser:apppassword@db:5432/appdb
+SUPABASE_DB_URL=
+DB_SSL=auto
+```
+
+Notes:
+
+- If `SUPABASE_DB_URL` is set, it takes priority over `DATABASE_URL`.
+- `DB_SSL=auto` enables SSL in production and for Supabase hosts.
+- Use this endpoint to verify connectivity from Nuxt server: `/api/health/db`.
+
 ## Deploy your own
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=portfolio&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fportfolio&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fportfolio-dark.png&demo-url=https%3A%2F%2Fportfolio-template.nuxt.dev%2F&demo-title=Nuxt%20Portfolio%20Template&demo-description=A%20sleek%20portfolio%20template%20to%20showcase%20your%20work%2C%20skills%20and%20blog%20powered%20by%20Nuxt%20Content.)

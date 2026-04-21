@@ -14,7 +14,6 @@ export interface Post {
   coverImage: string | null
   publishedAt: string | null
   status: 'draft' | 'published'
-  authorId: number
 }
 
 export interface PostTag {
