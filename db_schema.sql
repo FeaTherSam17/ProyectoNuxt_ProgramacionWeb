@@ -124,3 +124,87 @@ CREATE INDEX idx_pub_etq_publicacion
 
 CREATE INDEX idx_pub_etq_etiqueta 
     ON publicaciones_etiquetas(etiqueta_id);
+
+
+/*
+========================================================
+VERIFICAR RLS EN TABLAS
+========================================================
+*/
+
+SELECT tablename, rowsecurity
+FROM pg_tables
+WHERE schemaname = 'public'
+AND tablename IN (
+    'publicaciones_blog',
+    'etiquetas',
+    'publicaciones_etiquetas',
+    'mensajes_contacto'
+);
+
+/*
+========================================================
+PERMISOS BASE
+========================================================
+*/
+
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+
+/*
+========================================================
+HABILITAR RLS
+========================================================
+*/
+
+ALTER TABLE publicaciones_blog ENABLE ROW LEVEL SECURITY;
+ALTER TABLE etiquetas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE publicaciones_etiquetas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE mensajes_contacto ENABLE ROW LEVEL SECURITY;
+
+/*
+========================================================
+LECTURA PÚBLICA - BLOG
+========================================================
+*/
+
+CREATE POLICY read_publicaciones
+ON public.publicaciones_blog
+FOR SELECT
+TO anon, authenticated
+USING (true);
+
+
+CREATE POLICY read_etiquetas
+ON public.etiquetas
+FOR SELECT
+TO anon, authenticated
+USING (true);
+
+
+CREATE POLICY read_publicaciones_etiquetas
+ON public.publicaciones_etiquetas
+FOR SELECT
+TO anon, authenticated
+USING (true);
+
+GRANT INSERT, UPDATE, DELETE ON publicaciones_blog TO authenticated;
+
+CREATE POLICY insert_publicaciones
+ON public.publicaciones_blog
+FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+CREATE POLICY update_publicaciones
+ON public.publicaciones_blog
+FOR UPDATE
+TO authenticated
+USING (true);
+
+CREATE POLICY delete_publicaciones
+ON public.publicaciones_blog
+FOR DELETE
+TO authenticated
+USING (true);
