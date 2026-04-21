@@ -1,55 +1,6 @@
 /*
 ========================================================
-TABLA: autores
-========================================================
-Almacena la información principal de los usuarios del sistema
-que tienen rol de autor o administrador.
-
-Incluye soporte para autenticación mediante proveedores
-externos (OAuth), como Google u otros servicios similares.
-
-Relaciones:
-- Un autor puede tener un perfil (1:1 con perfiles_autor)
-- Un autor puede tener muchas publicaciones (1:N con publicaciones_blog)
-*/
-
-CREATE TABLE autores (
-    id SERIAL PRIMARY KEY,
-
-    -- Correo electrónico único del autor
-    correo VARCHAR(255) UNIQUE NOT NULL,
-
-    -- Nombre completo del autor
-    nombre VARCHAR(150) NOT NULL,
-
-    -- URL opcional de imagen de perfil
-    url_avatar TEXT,
-
-    -- Rol del usuario dentro del sistema
-    -- Valores permitidos: admin, autor
-    rol VARCHAR(50) DEFAULT 'admin'
-        CHECK (rol IN ('admin', 'autor')),
-
-    -- Proveedor de autenticación (ej. google, github)
-    proveedor VARCHAR(50) NOT NULL DEFAULT 'google',
-
-    -- Identificador único del usuario en el proveedor OAuth
-    proveedor_id TEXT NOT NULL,
-
-    -- Fecha de creación del registro
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    -- Fecha de última actualización del registro
-    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    -- Garantiza unicidad del usuario por proveedor OAuth
-    CONSTRAINT unique_proveedor UNIQUE (proveedor, proveedor_id)
-);
-
-
-/*
-========================================================
-TABLA: perfiles_autor
+TABLA: perfil_autor
 ========================================================
 Contiene información extendida del autor.
 Funciona como una relación 1:1 con la tabla autores.
@@ -58,10 +9,10 @@ Permite almacenar datos opcionales de perfil público
 y redes sociales.
 */
 
-CREATE TABLE perfiles_autor (
+CREATE TABLE perfil_autor (
     id SERIAL PRIMARY KEY,
 
-    -- Relación directa con autores
+    -- Relación 1:1 con autores
     autor_id INT UNIQUE NOT NULL,
 
     -- Nombre público o artístico del autor
@@ -85,8 +36,7 @@ CREATE TABLE perfiles_autor (
     soundcloud VARCHAR(255),
     spotify VARCHAR(255),
 
-    -- Relación con autores (eliminación en cascada)
-    CONSTRAINT fk_perfiles_autor_autor
+    CONSTRAINT fk_perfil_autor_autor
         FOREIGN KEY (autor_id)
         REFERENCES autores(id)
         ON DELETE CASCADE
@@ -97,7 +47,7 @@ CREATE TABLE perfiles_autor (
 ========================================================
 TABLA: publicaciones_blog
 ========================================================
-Almacena las publicaciones realizadas por los autores.
+Almacena las publicaciones creadas por los autores.
 
 Relación:
 - Un autor puede tener múltiples publicaciones (1:N)
@@ -106,33 +56,32 @@ Relación:
 CREATE TABLE publicaciones_blog (
     id SERIAL PRIMARY KEY,
 
-    -- Título principal del artículo
+    -- Autor que crea la publicación
+    autor_id INT NOT NULL,
+
+    -- Título del artículo
     titulo VARCHAR(255) NOT NULL,
 
-    -- Identificador URL-friendly único
+    -- URL amigable única
     slug VARCHAR(255) UNIQUE NOT NULL,
 
-    -- Resumen breve del contenido
+    -- Resumen del contenido
     resumen TEXT,
 
     -- Contenido completo del artículo
     contenido TEXT,
 
-    -- Imagen principal del artículo
+    -- Imagen principal
     imagen_portada TEXT,
 
-    -- Autor que crea la publicación
-    autor_id INT NOT NULL,
-
-    -- Estado de la publicación
-    -- Valores: borrador, publicado, archivado
+    -- Estado de publicación
+    -- borrador | publicado | archivado
     estado VARCHAR(50) DEFAULT 'borrador'
         CHECK (estado IN ('borrador', 'publicado', 'archivado')),
 
     -- Fecha de publicación
     publicado_en TIMESTAMP,
 
-    -- Relación con autores
     CONSTRAINT fk_publicaciones_autor
         FOREIGN KEY (autor_id)
         REFERENCES autores(id)
@@ -144,8 +93,7 @@ CREATE TABLE publicaciones_blog (
 ========================================================
 TABLA: etiquetas
 ========================================================
-Catálogo de etiquetas o categorías que pueden
-asociarse a las publicaciones.
+Catálogo de etiquetas para clasificar publicaciones.
 */
 
 CREATE TABLE etiquetas (
@@ -160,28 +108,21 @@ CREATE TABLE etiquetas (
 ========================================================
 TABLA: publicaciones_etiquetas
 ========================================================
-Tabla intermedia que implementa una relación
-muchos a muchos entre publicaciones y etiquetas.
-
-Relaciones:
-- Una publicación puede tener varias etiquetas
-- Una etiqueta puede pertenecer a varias publicaciones
+Tabla intermedia para relación muchos a muchos
+entre publicaciones y etiquetas.
 */
 
 CREATE TABLE publicaciones_etiquetas (
     publicacion_id INT NOT NULL,
     etiqueta_id INT NOT NULL,
 
-    -- Clave primaria compuesta
     PRIMARY KEY (publicacion_id, etiqueta_id),
 
-    -- Relación con publicaciones
     CONSTRAINT fk_pub_etq_publicacion
         FOREIGN KEY (publicacion_id)
         REFERENCES publicaciones_blog(id)
         ON DELETE CASCADE,
 
-    -- Relación con etiquetas
     CONSTRAINT fk_pub_etq_etiqueta
         FOREIGN KEY (etiqueta_id)
         REFERENCES etiquetas(id)
@@ -191,43 +132,52 @@ CREATE TABLE publicaciones_etiquetas (
 
 /*
 ========================================================
+TABLA: mensajes_contacto
+========================================================
+Almacena mensajes enviados por usuarios al sistema.
+Permite gestionar consultas o solicitudes de contacto.
+*/
+
+CREATE TABLE mensajes_contacto (
+    id SERIAL PRIMARY KEY,
+
+    -- Nombre del remitente
+    nombre VARCHAR(150) NOT NULL,
+
+    -- Correo del remitente
+    correo VARCHAR(255) NOT NULL,
+
+    -- Asunto del mensaje
+    asunto VARCHAR(255) NOT NULL,
+
+    -- Contenido del mensaje
+    mensaje TEXT NOT NULL,
+
+    -- Estado del mensaje
+    -- nuevo | leído | respondido
+    estado VARCHAR(50) DEFAULT 'nuevo',
+
+    -- Fecha de creación
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+/*
+========================================================
 ÍNDICES DE RENDIMIENTO
 ========================================================
-Se crean índices para optimizar consultas frecuentes
-sobre filtros y relaciones.
+Optimización de consultas frecuentes del sistema.
 */
 
-CREATE INDEX idx_autores_correo ON autores(correo);
-CREATE INDEX idx_publicaciones_autor_id ON publicaciones_blog(autor_id);
 CREATE INDEX idx_publicaciones_estado ON publicaciones_blog(estado);
+
 CREATE INDEX idx_publicaciones_fecha ON publicaciones_blog(publicado_en);
+
 CREATE INDEX idx_pub_etq_publicacion ON publicaciones_etiquetas(publicacion_id);
+
 CREATE INDEX idx_pub_etq_etiqueta ON publicaciones_etiquetas(etiqueta_id);
 
+CREATE INDEX idx_publicaciones_autor ON publicaciones_blog(autor_id);
 
-/*
-========================================================
-TRIGGER: actualización automática de fecha
-========================================================
-Función que actualiza el campo actualizado_en
-cada vez que se modifica un registro en la tabla autores.
-*/
-
-CREATE OR REPLACE FUNCTION actualizar_actualizado_en()
-RETURNS TRIGGER AS $$
-BEGIN
-   NEW.actualizado_en = CURRENT_TIMESTAMP;
-   RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
-/*
-Trigger asociado a la tabla autores.
-Se ejecuta antes de cada actualización.
-*/
-
-CREATE TRIGGER trigger_actualizar_autores
-BEFORE UPDATE ON autores
-FOR EACH ROW
-EXECUTE FUNCTION actualizar_actualizado_en();
+CREATE INDEX idx_perfil_autor ON perfil_autor(autor_id);
