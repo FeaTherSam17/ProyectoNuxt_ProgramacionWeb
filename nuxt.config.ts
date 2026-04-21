@@ -36,7 +36,9 @@ export default defineNuxtConfig({
     spotifyMarket: process.env.SPOTIFY_MARKET || 'US',
     smtpUrl: process.env.SMTP_URL || '',
     contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || '',
-    contactSenderEmail: process.env.CONTACT_SENDER_EMAIL || ''
+    contactSenderEmail: process.env.CONTACT_SENDER_EMAIL || '',
+    youtubeApiKey: process.env.YOUTUBE_API_KEY || '',
+    youtubeChannelId: process.env.YOUTUBE_CHANNEL_ID || ''
   },
 
   compatibilityDate: '2024-11-01',
