@@ -1,3 +1,16 @@
+export interface ApiSuccess<T> {
+  ok: true
+  data: T
+}
+
+export interface ApiError {
+  ok: false
+  message: string
+  code?: string
+}
+
+export type ApiResponse<T> = ApiSuccess<T> | ApiError
+
 export interface SpotifyTrack {
   id: string
   name: string
@@ -24,6 +37,13 @@ export interface SpotifyPlaylist {
   description: string
   imageUrl: string | null
   externalUrl: string
+}
+
+export interface SpotifyMusicPayload {
+  configured: boolean
+  tracks: SpotifyTrack[]
+  albums: SpotifyAlbum[]
+  playlists: SpotifyPlaylist[]
 }
 
 export interface YoutubeVideo {

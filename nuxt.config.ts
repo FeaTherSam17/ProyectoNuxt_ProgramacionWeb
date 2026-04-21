@@ -28,7 +28,12 @@ export default defineNuxtConfig({
     authAllowedEmails: process.env.AUTH_ALLOWED_EMAILS || '',
     googleClientId: process.env.GOOGLE_CLIENT_ID || '',
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    googleCallbackUrl: process.env.GOOGLE_CALLBACK_URL || ''
+    googleCallbackUrl: process.env.GOOGLE_CALLBACK_URL || '',
+    spotifyClientId: process.env.SPOTIFY_CLIENT_ID || '',
+    spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET || '',
+    spotifyArtistId: process.env.SPOTIFY_ARTIST_ID || '',
+    spotifyPlaylistIds: process.env.SPOTIFY_PLAYLIST_IDS || '',
+    spotifyMarket: process.env.SPOTIFY_MARKET || 'US'
   },
 
   compatibilityDate: '2024-11-01',

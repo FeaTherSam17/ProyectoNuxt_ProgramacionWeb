@@ -64,6 +64,31 @@ Notes:
 - `DB_SSL=auto` enables SSL in production and for Supabase hosts.
 - Use this endpoint to verify connectivity from Nuxt server: `/api/health/db`.
 
+## Spotify Integration (Music Page)
+
+The route `/music` now consumes data from the internal endpoint `/api/music/spotify`.
+
+Required environment variables:
+
+```bash
+SPOTIFY_CLIENT_ID=
+SPOTIFY_CLIENT_SECRET=
+SPOTIFY_ARTIST_ID=
+```
+
+Optional environment variables:
+
+```bash
+SPOTIFY_PLAYLIST_IDS=37i9dQZF1DXcBWIGoYBM5M,37i9dQZF1DX0XUsuxWHRQd
+SPOTIFY_MARKET=US
+```
+
+Notes:
+
+- `SPOTIFY_ARTIST_ID` is used to fetch album releases and derive top tracks from catalog data.
+- `SPOTIFY_PLAYLIST_IDS` supports a comma-separated list of public playlist IDs.
+- The server uses Spotify Client Credentials flow and caches the access token in memory.
+
 ## Deploy your own
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=portfolio&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fportfolio&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fportfolio-dark.png&demo-url=https%3A%2F%2Fportfolio-template.nuxt.dev%2F&demo-title=Nuxt%20Portfolio%20Template&demo-description=A%20sleek%20portfolio%20template%20to%20showcase%20your%20work%2C%20skills%20and%20blog%20powered%20by%20Nuxt%20Content.)
