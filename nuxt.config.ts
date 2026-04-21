@@ -33,7 +33,10 @@ export default defineNuxtConfig({
     spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET || '',
     spotifyArtistId: process.env.SPOTIFY_ARTIST_ID || '',
     spotifyPlaylistIds: process.env.SPOTIFY_PLAYLIST_IDS || '',
-    spotifyMarket: process.env.SPOTIFY_MARKET || 'US'
+    spotifyMarket: process.env.SPOTIFY_MARKET || 'US',
+    smtpUrl: process.env.SMTP_URL || '',
+    contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || '',
+    contactSenderEmail: process.env.CONTACT_SENDER_EMAIL || ''
   },
 
   compatibilityDate: '2024-11-01',
