@@ -4,7 +4,6 @@ interface ContactForm {
   correo: string
   asunto: string
   mensaje: string
-  estado: 'nuevo' | 'leido' | 'respondido'
 }
 
 interface ContactApiResponse {
@@ -23,20 +22,13 @@ const form = reactive<ContactForm>({
   nombre: '',
   correo: '',
   asunto: '',
-  mensaje: '',
-  estado: 'nuevo'
+  mensaje: ''
 })
 
 const errors = reactive<Record<string, string>>({})
 const isSubmitting = ref(false)
 const submitError = ref('')
 const submitSuccess = ref<null | ContactApiResponse['data']>(null)
-
-const statusOptions = [
-  { label: 'Nuevo', value: 'nuevo' },
-  { label: 'Leido', value: 'leido' },
-  { label: 'Respondido', value: 'respondido' }
-]
 
 const isValidEmail = (value: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -72,7 +64,6 @@ const resetForm = () => {
   form.correo = ''
   form.asunto = ''
   form.mensaje = ''
-  form.estado = 'nuevo'
   submitError.value = ''
   submitSuccess.value = null
 }
@@ -97,8 +88,7 @@ const submitContact = async () => {
         nombre: form.nombre,
         correo: form.correo,
         asunto: form.asunto,
-        mensaje: form.mensaje,
-        estado: form.estado
+        mensaje: form.mensaje
       })
     })
 
@@ -114,7 +104,6 @@ const submitContact = async () => {
     form.correo = ''
     form.asunto = ''
     form.mensaje = ''
-    form.estado = 'nuevo'
   } catch (error) {
     submitError.value = error instanceof Error
       ? error.message
@@ -204,21 +193,7 @@ useSeoMeta({
           <p v-if="errors.mensaje" class="field-error">{{ errors.mensaje }}</p>
         </div>
 
-        <div class="field-grid">
-          <label class="field-label" for="estado">Estado</label>
-          <select id="estado" v-model="form.estado" class="field-input">
-            <option
-              v-for="status in statusOptions"
-              :key="status.value"
-              :value="status.value"
-            >
-              {{ status.label }}
-            </option>
-          </select>
-          <p class="field-help">En flujo normal se registra como nuevo.</p>
-        </div>
-
-        <p class="field-help">El mensaje se enviara a tu correo de destino configurado.</p>
+        <!-- <p class="field-help">El mensaje se enviara a tu correo de destino configurado.</p> -->
 
         <div class="mt-6 flex flex-wrap gap-3">
           <UButton
