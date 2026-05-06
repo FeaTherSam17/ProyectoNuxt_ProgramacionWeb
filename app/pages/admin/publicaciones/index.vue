@@ -61,6 +61,7 @@ useSeoMeta({
       </div>
 
       <div class="flex gap-2">
+        <UButton to="/admin/mensajes-contacto" color="neutral" variant="outline" icon="i-lucide-inbox">Mensajes</UButton>
         <UButton to="/admin/publicaciones/nueva" icon="i-lucide-plus">Nueva</UButton>
         <UButton color="neutral" variant="outline" icon="i-lucide-log-out" @click="logout">Cerrar sesion</UButton>
       </div>
