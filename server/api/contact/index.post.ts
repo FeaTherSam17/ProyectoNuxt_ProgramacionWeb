@@ -1,14 +1,12 @@
 import type { H3Event } from 'h3'
 import nodemailer from 'nodemailer'
-
-type ContactStatus = 'nuevo' | 'leido' | 'respondido'
+import { sqlQuery } from '../../utils/db'
 
 interface ContactRequestBody {
   nombre?: string
   correo?: string
   asunto?: string
   mensaje?: string
-  estado?: ContactStatus
 }
 
 interface ContactEmailData {
@@ -16,11 +14,8 @@ interface ContactEmailData {
   correo: string
   asunto: string
   mensaje: string
-  estado: ContactStatus
   enviado_en: string
 }
-
-const allowedStates: ContactStatus[] = ['nuevo', 'leido', 'respondido']
 
 const isValidEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -39,7 +34,6 @@ const parseContactPayload = (body: ContactRequestBody) => {
   const correo = cleanText(body?.correo).toLowerCase()
   const asunto = cleanText(body?.asunto)
   const mensaje = cleanText(body?.mensaje)
-  const estado = body?.estado && allowedStates.includes(body.estado) ? body.estado : 'nuevo'
 
   if (nombre.length < 2 || nombre.length > 150) {
     throw createError({ statusCode: 400, statusMessage: 'El nombre debe tener entre 2 y 150 caracteres.' })
@@ -61,8 +55,7 @@ const parseContactPayload = (body: ContactRequestBody) => {
     nombre,
     correo,
     asunto,
-    mensaje,
-    estado
+    mensaje
   }
 }
 
@@ -93,7 +86,6 @@ const sendContactEmail = async (event: H3Event, data: ContactEmailData) => {
     `Nombre: ${data.nombre}`,
     `Correo: ${data.correo}`,
     `Asunto: ${data.asunto}`,
-    `Estado: ${data.estado}`,
     `Enviado en: ${data.enviado_en}`,
     '',
     data.mensaje
@@ -117,16 +109,44 @@ export default defineEventHandler(async (event) => {
     enviado_en: sentAt
   }
 
+  let insertedId: number | null = null
+
   try {
-    await sendContactEmail(event, emailData)
+    const insertResult = await sqlQuery<{ id: number }>(
+      `
+        INSERT INTO mensajes_contacto (nombre, correo, asunto, mensaje)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id
+      `,
+      [payload.nombre, payload.correo, payload.asunto, payload.mensaje]
+    )
+
+    insertedId = insertResult.rows[0]?.id ?? null
+
+    if (!insertedId) {
+      throw createError({ statusCode: 500, statusMessage: 'No se pudo guardar el mensaje de contacto.' })
+    }
+
+    let emailSent = true
+    let emailStatus: string | null = null
+
+    try {
+      await sendContactEmail(event, emailData)
+    } catch (error) {
+      emailSent = false
+      emailStatus = error instanceof Error && error.message
+        ? error.message
+        : 'Error SMTP desconocido.'
+    }
 
     return {
       ok: true,
       data: {
-        estado: payload.estado,
+        estado: 'nuevo',
         enviadoEn: sentAt,
-        emailSent: true,
-        emailStatus: null
+        emailSent,
+        emailStatus,
+        id: insertedId
       }
     }
   } catch (error) {
@@ -134,13 +154,13 @@ export default defineEventHandler(async (event) => {
       throw error
     }
 
-    const smtpReason = error instanceof Error && error.message
+    const dbReason = error instanceof Error && error.message
       ? error.message
-      : 'Error SMTP desconocido.'
+      : 'Error de base de datos desconocido.'
 
     throw createError({
       statusCode: 500,
-      statusMessage: `No se pudo enviar el formulario por SMTP: ${smtpReason}`
+      statusMessage: `No se pudo guardar el formulario de contacto: ${dbReason}`
     })
   }
 })

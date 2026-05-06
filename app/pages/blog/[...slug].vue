@@ -299,4 +299,60 @@ const formatDate = (dateString: string) => {
 .markdown-body p {
   margin: 0.6em 0;
 }
+
+/* Enhanced markdown styling for readability on dark background */
+.markdown-body {
+  color: #e6e6e6;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.markdown-body h1 { font-size: 2rem; font-weight: 700; margin: 0.6em 0; }
+.markdown-body h2 { font-size: 1.6rem; font-weight: 700; margin: 0.5em 0; }
+.markdown-body h3 { font-size: 1.25rem; font-weight: 700; margin: 0.5em 0; }
+.markdown-body h4 { font-size: 1.05rem; font-weight: 600; margin: 0.4em 0; }
+.markdown-body h5 { font-size: 1rem; font-weight: 600; margin: 0.35em 0; }
+.markdown-body h6 { font-size: 0.95rem; font-weight: 600; margin: 0.3em 0; }
+
+.markdown-body a { color: #8ec4ff; text-decoration: underline; }
+.markdown-body strong { font-weight: 700; }
+.markdown-body em { font-style: italic; }
+
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0.6em 0 0.6em 1.25rem;
+}
+.markdown-body li { margin: 0.25em 0; }
+
+.markdown-body pre,
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+}
+.markdown-body pre {
+  background: rgba(0,0,0,0.25);
+  padding: 12px;
+  border-radius: 8px;
+  overflow: auto;
+  margin: 0.75em 0;
+}
+.markdown-body code {
+  background: rgba(0,0,0,0.18);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid rgba(255,255,255,0.08);
+  padding-left: 12px;
+  margin: 0.6em 0;
+  color: #cfcfcf;
+}
+
+.markdown-body table { background: transparent; }
+.markdown-body th, .markdown-body td { border-color: rgba(255,255,255,0.12); }
+
+.markdown-body img { display: block; margin: 0.6em auto; }
+
+/* make sure headings are visually distinct from small caption text */
+.markdown-body .caption,
+.markdown-body .muted { font-size: 0.85rem; color: rgba(230,230,230,0.7); }
 </style>
