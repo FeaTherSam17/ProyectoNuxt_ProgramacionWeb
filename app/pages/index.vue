@@ -2,50 +2,33 @@
 useSeoMeta({
   title: 'Inicio',
   ogTitle: 'Inicio',
-  description: 'Plataforma para fans con musica, blog, contenido en YouTube y contacto directo.',
-  ogDescription: 'Plataforma para fans con musica, blog, contenido en YouTube y contacto directo.'
+  description: 'Plataforma oficial de ViFeather. Música, historias y frecuencias profundas.',
+  ogDescription: 'Plataforma oficial de ViFeather. Música, historias y frecuencias profundas.'
 })
 
-const highlights = [
+const lore = [
   {
-    title: 'Music',
-    description: 'Top tracks, albums y playlists en una sola vista para descubrir y compartir.'
+    title: 'La Esencia',
+    description: 'ViFeather habita en el espectro entre lo etéreo y lo industrial. Un ente que se manifiesta en la colisión de texturas melódicas y sombras profundas, definiendo un espacio donde la melancolía encuentra su propia frecuencia.'
   },
   {
-    title: 'Blog',
-    description: 'Feed de publicaciones con formato editorial y lectura optimizada.'
+    title: 'Arquitectura Compartida',
+    description: 'Este sonido se construyó sobre cimientos que nacieron en la infancia. Es el resultado de un diálogo creativo de años; una estructura técnica y emocional que hoy se sostiene sobre el eco de lo que alguna vez fue un camino de dos.'
   },
   {
-    title: 'YouTube',
-    description: 'Video destacado y lista de contenido reciente para mantener activa la comunidad.'
-  }
-]
-
-const process = [
-  {
-    step: '01',
-    title: 'Home como Hub Central',
-    text: 'La pagina principal conecta en un solo flujo los modulos de Music, Blog, YouTube y Contacto.'
-  },
-  {
-    step: '02',
-    title: 'Experiencia Fan-First',
-    text: 'La arquitectura prioriza descubrimiento de contenido, consumo rapido y navegacion clara desde cualquier dispositivo.'
-  },
-  {
-    step: '03',
-    title: 'Escalable a Admin',
-    text: 'La base publica queda preparada para integrar panel administrativo y gestion de publicaciones sin romper UX.'
+    title: 'Legado en la Sombra',
+    description: 'Inspirado por la influencia de ERAVFT, el proyecto rescata visiones que quedaron suspendidas en el tiempo. Es la continuación de una narrativa que se niega a desaparecer, transformando el silencio de otros en nuevas formas de energía.'
   }
 ]
 </script>
 
 <template>
-  <div class="home-page">
+  <div class="home-page px-4 md:px-8">
+    
     <section class="hero-shell">
       <div class="hero-bg-glow" />
 
-      <UContainer class="hero-grid">
+      <UContainer class="hero-grid items-center">
         <Motion
           class="hero-copy"
           :initial="{ opacity: 0, y: 28 }"
@@ -63,12 +46,13 @@ const process = [
           <p class="hero-kicker">
             Music | Blog | YouTube | Contacto
           </p>
+          
           <h1 class="hero-title">
-            Un espacio digital para fans: musica, historias, videos y contacto en una sola experiencia.
+            Frecuencias nacidas en la penumbra: donde el ruido se transforma en nostalgia.
           </h1>
+          
           <p class="hero-description">
-            Esta homepage funciona como punto de entrada al ecosistema del proyecto,
-            organizando el contenido por modulos para facilitar descubrimiento y retencion.
+            Casi cinco años de evolución sonora atrapados entre la euforia del colour bass y el frío del dark ambient. Este espacio resguarda las historias y los ecos de un trayecto creativo que se niega a desvanecerse en el silencio.
           </p>
 
           <div class="hero-actions">
@@ -95,10 +79,10 @@ const process = [
           :transition="{ duration: 0.55, delay: 0.12 }"
         >
           <p class="panel-overline">
-            Experiencia Publica
+            Experiencia Pública
           </p>
           <h2 class="panel-title">
-            Navegacion clara, contenido conectado
+            Navegación clara, contenido conectado
           </h2>
 
           <ul class="panel-list">
@@ -108,7 +92,7 @@ const process = [
             </li>
             <li>
               <span class="panel-dot" />
-              Contenido organizado por modulos para crecer sin desorden
+              Contenido organizado por módulos para crecer sin desorden
             </li>
             <li>
               <span class="panel-dot" />
@@ -119,114 +103,84 @@ const process = [
       </UContainer>
     </section>
 
-    <section class="section-brand-elements">
-      <UContainer>
-        <div class="brand-elements-shell">
-          <div class="brand-elements-header">
-            <p class="section-label">
-              Identidad Visual
-            </p>
-            <h2>
-              Elementos representativos de la marca
-            </h2>
-          </div>
-
-          <div class="brand-elements-grid">
-            <article class="brand-element-card">
-              <NuxtImg
-                src="/brand/vf-logo.png"
-                alt="VF Logo Icon"
-                width="52"
-                height="52"
-                class="brand-logo"
-              />
-              <h3>Sello Principal</h3>
-              <p>Aplicado en encabezado, portada y puntos clave para reforzar reconocimiento visual.</p>
-            </article>
-
-            <article class="brand-element-card">
-              <NuxtImg
-                src="/brand/vf-logo.png"
-                alt="VF Logo Signature"
-                width="52"
-                height="52"
-                class="brand-logo"
-              />
-              <h3>Firma de Seccion</h3>
-              <p>Usado como acento en tarjetas y bloques destacados dentro de la experiencia publica.</p>
-            </article>
-
-            <article class="brand-element-card">
-              <NuxtImg
-                src="/brand/vf-logo.png"
-                alt="VF Logo Footer"
-                width="52"
-                height="52"
-                class="brand-logo"
-              />
-              <h3>Presencia Persistente</h3>
-              <p>Integrado en footer para mantener continuidad de marca a lo largo de toda la navegacion.</p>
-            </article>
-          </div>
-        </div>
-      </UContainer>
-    </section>
-
-    <section class="section-highlights">
-      <UContainer>
-        <div class="section-heading">
-          <p class="section-label">
-            Modulos del Sitio
-          </p>
-          <h2>
-            Pilares de la experiencia publica
-          </h2>
+    <section class="py-12 border-t border-white/5">
+      <UContainer class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+        
+        <div class="space-y-2">
+          <p class="section-label">El Universo</p>
+          <h2 class="text-3xl md:text-4xl font-serif tracking-tight uppercase">Más allá de la superficie</h2>
         </div>
 
-        <div class="highlight-grid">
-          <Motion
-            v-for="(item, index) in highlights"
+        <div class="md:col-span-2 space-y-8">
+          <div 
+            v-for="(item, index) in lore" 
             :key="item.title"
-            :initial="{ opacity: 0, y: 25 }"
-            :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.45, delay: 0.08 * index }"
-            class="highlight-card"
+            class="space-y-2"
           >
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.description }}</p>
-          </Motion>
+            <Motion
+              :initial="{ opacity: 0, x: 25 }"
+              :animate="{ opacity: 1, x: 0 }"
+              :transition="{ duration: 0.45, delay: 0.08 * index }"
+            >
+              <h3 class="text-xl font-serif text-purple-400 font-semibold">{{ item.title }}</h3>
+              <p class="text-white/80 leading-relaxed text-base md:text-lg">{{ item.description }}</p>
+            </Motion>
+          </div>
         </div>
+
       </UContainer>
     </section>
 
-    <section class="section-process">
-      <UContainer>
-        <div class="section-heading">
-          <p class="section-label">
-            Enfoque Funcional
-          </p>
-          <h2>
-            Arquitectura pensada para escalar
-          </h2>
+    <section class="py-12 border-t border-white/5">
+      <UContainer class="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
+        
+        <div class="md:col-span-2 space-y-6">
+          <div>
+            <p class="section-label">Identidad Visual</p>
+            <h2 class="text-3xl font-serif uppercase tracking-tight">Elementos de la marca</h2>
+          </div>
+          
+          <div class="space-y-4">
+            <article class="flex gap-4 items-center p-4 bg-white/5 rounded-xl border border-white/10">
+              <NuxtImg src="/brand/vf-logo.png" alt="VF Logo" width="48" height="48" class="brand-logo shrink-0" />
+              <div>
+                <h3 class="font-serif text-lg font-medium">Sello Principal</h3>
+                <p class="text-sm text-white/70">Reconocimiento visual aplicado en portadas y puntos clave.</p>
+              </div>
+            </article>
+
+            <article class="flex gap-4 items-center p-4 bg-white/5 rounded-xl border border-white/10">
+              <NuxtImg src="/brand/vf-logo.png" alt="VF Logo" width="48" height="48" class="brand-logo shrink-0" />
+              <div>
+                <h3>Firma de Sección</h3>
+                <p class="text-sm text-white/70">Acento visual e iconografía integrado en el ecosistema.</p>
+              </div>
+            </article>
+          </div>
         </div>
 
-        <div class="process-stack">
+        <div class="md:col-span-3 w-full">
           <Motion
-            v-for="(item, index) in process"
-            :key="item.step"
-            class="process-item"
-            :initial="{ opacity: 0, x: -22 }"
-            :animate="{ opacity: 1, x: 0 }"
-            :transition="{ duration: 0.45, delay: 0.07 * index }"
+            :initial="{ opacity: 0, scale: 0.98 }"
+            :animate="{ opacity: 1, scale: 1 }"
+            :transition="{ duration: 0.6 }"
+            class="relative rounded-2xl overflow-hidden aspect-[16/10] bg-black/30 shadow-2xl border border-white/10"
           >
-            <span class="process-step">{{ item.step }}</span>
-            <div>
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.text }}</p>
-            </div>
+            <NuxtImg 
+              src="/brand/character-visual.png" 
+              alt="Visual Aesthetic Display" 
+              class="w-full h-full object-cover grayscale-[10%] contrast-[105%]"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
           </Motion>
         </div>
+
       </UContainer>
     </section>
+
   </div>
 </template>
+
+<style scoped>
+/* Completamente limpio para heredar tus fuentes Cinzel/Playfair y colores de Kigen */
+</style>
